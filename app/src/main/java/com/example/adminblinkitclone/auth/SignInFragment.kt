@@ -1,11 +1,18 @@
 package com.example.adminblinkitclone.auth
 
+import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.adminblinkitclone.R
+import com.example.adminblinkitclone.Utils
+import com.example.adminblinkitclone.databinding.FragmentSignInBinding
 
 /**
  * A simple [androidx.fragment.app.Fragment] subclass.
@@ -13,43 +20,65 @@ import com.example.adminblinkitclone.R
  * create an instance of this fragment.
  */
 class SignInFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(com.example.adminblinkitclone.ARG_PARAM1)
-            param2 = it.getString(com.example.adminblinkitclone.ARG_PARAM2)
-        }
-    }
-
+    private lateinit var binding: FragmentSignInBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_in, container, false)
+        binding = FragmentSignInBinding.inflate(layoutInflater)
+        setStatusBarColor()
+        getUserNumber()
+        onContinueClick()
+        return binding.root
     }
+    private fun onContinueClick() {
+        binding.btnContinue.setOnClickListener {
+            try {
+                val number = binding.etUserInput.text.toString()
+                if (!number.matches(Regex("^\\d{10}$"))) {
+                    Utils.showToast(requireContext(), "Please enter a valid 10-digit number")
+                } else {
+                    val bundle = Bundle().apply {
+                        putString("number", number)
+                    }
+                    findNavController().navigate(R.id.action_signInFragment_to_OTPFragment, bundle)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Utils.showToast(requireContext(), "Navigation failed: ${e.message}")
+            }
+        }
+    }
+    private fun getUserNumber() {
+        binding.etUserInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignInFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignInFragment().apply {
-                arguments = Bundle().apply {
-                    putString(com.example.adminblinkitclone.ARG_PARAM1, param1)
-                    putString(com.example.adminblinkitclone.ARG_PARAM2, param2)
+            }
+
+            override fun onTextChanged(number: CharSequence?, start: Int, before: Int, count: Int) {
+                val len = number?.length
+
+                if (len == 10) {
+                    binding.btnContinue.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green))
+
+                }
+                else{
+                    binding.btnContinue.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.greyish_blue))
                 }
             }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+        })
+    }
+    private fun setStatusBarColor() {
+        requireActivity().window?.apply {
+            val statusBarColors = ContextCompat.getColor(requireContext(), R.color.yellow)
+            statusBarColor = statusBarColors
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
     }
 }
