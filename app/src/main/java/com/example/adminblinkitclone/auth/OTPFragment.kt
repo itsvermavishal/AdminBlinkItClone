@@ -54,19 +54,13 @@ class OTPFragment : Fragment() {
         }
     }
     private fun verifyOTP(otp: String) {
+        val user = Users(uid = null, userPhoneNumber = userNumber, userAddress = null)
 
-
-        viewModel.signInWithPhoneAuthCredential(otp, userNumber)
+        viewModel.signInWithPhoneAuthCredential(otp, userNumber, user)
 
         lifecycleScope.launch {
             viewModel.isSignedInSuccessfully.collect {success ->
                 if (success){
-                    val uid = Utils.getCurrentUserId()
-                    val user = Users(uid = uid, userPhoneNumber = userNumber, userAddress = null)
-
-                    // Save user in Firebase
-                    Utils.showDialog(requireContext(), "Saving user info...")
-                    viewModel.createOrUpdateUser(user)
                     Utils.hideDialog()
 
                     Utils.showToast(requireContext(), "Logged In...")

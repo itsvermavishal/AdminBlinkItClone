@@ -76,15 +76,30 @@ class AuthViewModel : ViewModel(){
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    fun signInWithPhoneAuthCredential(otp: String, userNumber: String) {
+    fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Users) {
         val credential = PhoneAuthProvider.getCredential(verificationId.value.toString(), otp)
         Utils.getAuthInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _isSignedInSuccessfully.value = true
+                    val uid = Utils.getCurrentUserId()
+                    val updatedUser = user.copy(uid = uid)
+
+                    // Save user data to Realtime Database
+                    FirebaseDatabase.getInstance()
+                        .getReference("AllUsers")
+                        .child("Users")
+                        .child(uid!!)
+                        .setValue(updatedUser)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                _isSignedInSuccessfully.value = true
+                            } else {
+                                Log.e("AuthViewModel", "User save failed: ${it.exception?.message}")
+                            }
+                        }
                 } else {
-                    Log.e("AuthViewModel", "Sign in failed: ${task.exception?.message}", task.exception)
-                    _isSignedInSuccessfully.value = false
+                    _otpError.value = task.exception?.localizedMessage ?: "Sign-in failed."
+                    Log.e("AuthViewModel", "Sign-in failed: ${task.exception?.message}")
                 }
             }
     }
