@@ -33,4 +33,4 @@ class AdminMainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomMenu, navController)
     }
 }
-// we ware at this point
+// we ware at this point please do something and finish this project as soon as possible please request
