@@ -1,4 +1,4 @@
-package com.example.adminblinkitclone
+package com.example.adminblinkitclone.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.example.adminblinkitclone.R
 import com.example.adminblinkitclone.databinding.ActivityAdminMainBinding
 
 class AdminMainActivity : AppCompatActivity() {

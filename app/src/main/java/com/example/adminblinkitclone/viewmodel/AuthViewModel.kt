@@ -3,7 +3,7 @@ package com.example.adminblinkitclone.viewmodel
 import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.adminblinkitclone.Users
+import com.example.adminblinkitclone.model.Admin
 import com.example.adminblinkitclone.Utils
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -76,7 +76,7 @@ class AuthViewModel : ViewModel(){
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Users) {
+    fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Admin) {
         val credential = PhoneAuthProvider.getCredential(verificationId.value.toString(), otp)
         Utils.getAuthInstance().signInWithCredential(credential)
             .addOnCompleteListener { task ->
@@ -86,8 +86,8 @@ class AuthViewModel : ViewModel(){
 
                     // Save user data to Realtime Database
                     FirebaseDatabase.getInstance()
-                        .getReference("AllUsers")
-                        .child("Users")
+                        .getReference("Admin")
+                        .child("AdminInfo")
                         .child(uid!!)
                         .setValue(updatedUser)
                         .addOnCompleteListener {
@@ -104,7 +104,7 @@ class AuthViewModel : ViewModel(){
             }
     }
 
-    fun createOrUpdateUser(user: Users) {
+    fun createOrUpdateUser(user: Admin) {
         val uid = user.uid ?: return
         FirebaseDatabase.getInstance()
             .getReference("AllUsers")

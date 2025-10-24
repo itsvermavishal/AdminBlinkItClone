@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.adminblinkitclone.AdminMainActivity
+import com.example.adminblinkitclone.activity.AdminMainActivity
 import com.example.adminblinkitclone.R
 import com.example.adminblinkitclone.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
