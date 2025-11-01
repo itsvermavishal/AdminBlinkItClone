@@ -1,22 +1,26 @@
-package com.example.adminblinkitclone
+package com.example.adminblinkitclone.fragments
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.example.adminblinkitclone.R
+import com.example.adminblinkitclone.databinding.FragmentAddProductBinding
 
-class HomeFragment : Fragment() {
+class AddProductFragment : Fragment() {
 
+    private lateinit var binding: FragmentAddProductBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentAddProductBinding.inflate(layoutInflater)
         setStatusBarColor()
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return binding.root
+
     }
 
     private fun setStatusBarColor() {
@@ -28,4 +32,5 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 }
