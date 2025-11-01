@@ -106,7 +106,7 @@
                     app:endIconMode="clear_text"
                     app:hintTextColor="@color/yellow">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/etProductUnit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
