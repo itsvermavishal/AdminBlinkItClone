@@ -31,7 +31,6 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStatusBarColor()
         Handler(Looper.getMainLooper()).postDelayed({
             lifecycleScope.launch {
                 viewModel.isCurrentUser.collect {
@@ -50,14 +49,5 @@ class SplashFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
-    private fun setStatusBarColor() {
-        activity?.window?.apply {
-            val statusBarColors = resources.getColor(R.color.yellow)
-            statusBarColor = statusBarColors
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
-    }
 
 }

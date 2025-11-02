@@ -26,7 +26,6 @@ class SignInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSignInBinding.inflate(layoutInflater)
-        setStatusBarColor()
         getUserNumber()
         onContinueClick()
         return binding.root
@@ -71,14 +70,5 @@ class SignInFragment : Fragment() {
 
             }
         })
-    }
-    private fun setStatusBarColor() {
-        requireActivity().window?.apply {
-            val statusBarColors = ContextCompat.getColor(requireContext(), R.color.yellow)
-            statusBarColor = statusBarColors
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            }
-        }
     }
 }
