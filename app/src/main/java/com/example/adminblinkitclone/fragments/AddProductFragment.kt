@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.adminblinkitclone.Contants
+import com.example.adminblinkitclone.Constants
 import com.example.adminblinkitclone.R
 import com.example.adminblinkitclone.Utils
 import com.example.adminblinkitclone.activity.AdminMainActivity
@@ -134,9 +133,9 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setAutoCompleteTextView() {
-        val units = ArrayAdapter(requireContext(), R.layout.show_list, Contants.allUnitsOfProducts)
-        val category = ArrayAdapter(requireContext(), R.layout.show_list, Contants.allProductsCategory)
-        val productType = ArrayAdapter(requireContext(), R.layout.show_list, Contants.allProductType)
+        val units = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allUnitsOfProducts)
+        val category = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductsCategory)
+        val productType = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductType)
 
         binding.apply {
             etProductUnit.setAdapter(units)
