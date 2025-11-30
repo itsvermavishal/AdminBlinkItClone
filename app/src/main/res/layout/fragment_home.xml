@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
+    <TextView
+        android:id="@+id/tvText"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No products added in this category!"
+        app:layout_constraintTop_toBottomOf="@id/rvCategories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"/>
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbHomeFragment"
         android:layout_width="match_parent"
@@ -66,6 +81,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:spanCount="2"/>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rvCategories">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_view_product_shimmer"/>
+            <include layout="@layout/item_view_product_shimmer"/>
+            <include layout="@layout/item_view_product_shimmer"/>
+            <include layout="@layout/item_view_product_shimmer"/>
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
