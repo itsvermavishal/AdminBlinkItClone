@@ -2,18 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_margin="2.60dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="2.60dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvProduct"
         android:layout_width="match_parent"
         android:layout_height="286.0dp"
-        android:backgroundTint="@color/white"
-        app:cardCornerRadius="13.0dp"
-        android:elevation="0dp"
-        app:cardPreventCornerOverlap="false"
         android:background="@drawable/bg_stroke"
+        android:backgroundTint="@color/white"
+        android:elevation="0dp"
+        app:cardCornerRadius="13.0dp"
+        app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,28 +31,28 @@
                 android:layout_height="156.0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvProductTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Nandini Toned Fresh Milk alda"
                 android:textColor="@color/black"
                 android:textSize="19.50sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvProductQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="1 kg"
                 android:textColor="#6F6F6F"
-                android:textSize="15.00sp"/>
+                android:textSize="15.00sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,22 +72,22 @@
                         android:textSize="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvAdd"
                         android:layout_width="78.0dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_add_button"
+                        android:gravity="center"
+                        android:padding="5.20dp"
                         android:text="Edit"
+                        android:textColor="@color/green"
+                        android:textSize="14.30sp"
                         android:textStyle="bold"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:padding="5.20dp"
-                        android:gravity="center"
-                        android:textColor="@color/green"
-                        android:background="@drawable/bg_add_button"
-                        android:textSize="14.30sp"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,16 +2,22 @@ package com.example.adminblinkitclone.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.adminblinkitclone.FilteringProducts
 import com.example.adminblinkitclone.databinding.ItemViewProductBinding
 import com.example.adminblinkitclone.model.Product
 
 class AdapterProduct(
-    val onEditButtonClicked: (Product) -> Unit) : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>() {
-    class ProductViewHolder(val binding: ItemViewProductBinding) : RecyclerView.ViewHolder(binding.root)
+    val onEditButtonClicked: (Product) -> Unit) : RecyclerView.Adapter<AdapterProduct.ProductViewHolder>(), Filterable {
+    class ProductViewHolder(val binding: ItemViewProductBinding) : ViewHolder(binding.root) {
+
+    }
 
     val diffutil = object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(
@@ -76,4 +82,10 @@ class AdapterProduct(
         }
     }
 
+    val filter : FilteringProducts? = null
+    var originalList = ArrayList<Product>()
+    override fun getFilter(): Filter? {
+        if (filter == null) return FilteringProducts(this, originalList)
+        return filter
+    }
 }
