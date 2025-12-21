@@ -32,5 +32,7 @@ class AdminMainActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.fragmentContainerView2)
         NavigationUI.setupWithNavController(binding.bottomMenu, navController)
     }
+
+
 }
 // we ware at this point please do something and finish this project as soon as possible please request
