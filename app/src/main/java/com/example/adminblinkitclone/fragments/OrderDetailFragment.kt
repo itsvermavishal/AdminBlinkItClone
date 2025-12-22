@@ -56,6 +56,9 @@ class OrderDetailFragment : Fragment() {
                             status = 1
                             settingStatus(1)
                             viewModel.updateOrderStatus(orderId, 1)
+                            lifecycleScope.launch {
+                                viewModel.sendNotification(orderId, "Received", "Your Order is Received")
+                            }
                         }
                         else{
                             Utils.showToast(requireContext(), "Already Received")
@@ -68,6 +71,9 @@ class OrderDetailFragment : Fragment() {
                             status = 2
                             settingStatus(2)
                             viewModel.updateOrderStatus(orderId, 2)
+                            lifecycleScope.launch {
+                                viewModel.sendNotification(orderId, "Dispatched", "Your Order is Dispatched")
+                            }
                         }
                         else{
                             Utils.showToast(requireContext(), "Already Dispatched")
@@ -80,6 +86,9 @@ class OrderDetailFragment : Fragment() {
                             status = 3
                             settingStatus(3)
                             viewModel.updateOrderStatus(orderId, 3)
+                            lifecycleScope.launch {
+                                viewModel.sendNotification(orderId, "Delivered", "Your Order is Delivered")
+                            }
                         }
                         else{
                             Utils.showToast(requireContext(), "Already Delivered")

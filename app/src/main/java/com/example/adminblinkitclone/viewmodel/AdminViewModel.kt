@@ -5,12 +5,16 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.adminblinkitclone.Utils
 import com.example.adminblinkitclone.model.CartProductsTable
 import com.example.adminblinkitclone.model.Orders
 import com.example.adminblinkitclone.model.Product
+import com.example.adminblinkitclone.models.Notification
+import com.example.adminblinkitclone.models.NotificationData
+import com.example.userblinkitclone.api.ApiUtilities
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +26,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class AdminViewModel : ViewModel() {
@@ -173,5 +180,34 @@ class AdminViewModel : ViewModel() {
 
     fun updateOrderStatus(orderId: String, status : Int){
         FirebaseDatabase.getInstance().getReference("Admins").child("Orders").child(orderId).child("orderStatus").setValue(status)
+    }
+
+    suspend fun sendNotification(orderId: String, title: String, message: String){
+        val getToken = FirebaseDatabase.getInstance().getReference("Admins").child("Orders").child(orderId).child("orderingUserId").get()
+        getToken.addOnSuccessListener { task ->
+            val userUID = task.getValue(String::class.java)
+            val userToken = FirebaseDatabase.getInstance().getReference("AllUsers").child("Users").child(userUID!!).child("userToken").get()
+            userToken.addOnCompleteListener {
+                val notification = Notification(it.result.getValue(String::class.java), NotificationData(title, message))
+                ApiUtilities.notificationApi.sendNotification(notification)
+                    .enqueue(object : Callback<Notification> {
+                        override fun onResponse(
+                            call: Call<Notification?>,
+                            response: Response<Notification?>
+                        ) {
+                            if (response.isSuccessful){
+                                Log.d("GGG", "Notification sent")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<Notification?>,
+                            t: Throwable
+                        ) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+            }
+        }
     }
 }
