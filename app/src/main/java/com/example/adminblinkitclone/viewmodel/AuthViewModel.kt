@@ -13,6 +13,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.TimeUnit
@@ -78,30 +79,36 @@ class AuthViewModel : ViewModel(){
 
     fun signInWithPhoneAuthCredential(otp: String, userNumber: String, user: Admin) {
         val credential = PhoneAuthProvider.getCredential(verificationId.value.toString(), otp)
-        Utils.getAuthInstance().signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val uid = Utils.getCurrentUserId()
-                    val updatedUser = user.copy(uid = uid)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            val token =  task.result
+            user.adminToken = token
 
-                    // Save user data to Realtime Database
-                    FirebaseDatabase.getInstance()
-                        .getReference("Admin")
-                        .child("AdminInfo")
-                        .child(uid!!)
-                        .setValue(updatedUser)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                _isSignedInSuccessfully.value = true
-                            } else {
-                                Log.e("AuthViewModel", "User save failed: ${it.exception?.message}")
+
+            Utils.getAuthInstance().signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val uid = Utils.getCurrentUserId()
+                        val updatedUser = user.copy(uid = uid)
+
+                        // Save user data to Realtime Database
+                        FirebaseDatabase.getInstance()
+                            .getReference("Admin")
+                            .child("AdminInfo")
+                            .child(uid!!)
+                            .setValue(updatedUser)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    _isSignedInSuccessfully.value = true
+                                } else {
+                                    Log.e("AuthViewModel", "User save failed: ${it.exception?.message}")
+                                }
                             }
-                        }
-                } else {
-                    _otpError.value = task.exception?.localizedMessage ?: "Sign-in failed."
-                    Log.e("AuthViewModel", "Sign-in failed: ${task.exception?.message}")
+                    } else {
+                        _otpError.value = task.exception?.localizedMessage ?: "Sign-in failed."
+                        Log.e("AuthViewModel", "Sign-in failed: ${task.exception?.message}")
+                    }
                 }
-            }
+        }
     }
 
     fun createOrUpdateUser(user: Admin) {
