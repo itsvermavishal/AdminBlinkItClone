@@ -8,13 +8,14 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.adminblinkitclone.Utils
+import com.example.adminblinkitclone.utils.Utils
 import com.example.adminblinkitclone.model.CartProductsTable
 import com.example.adminblinkitclone.model.Orders
 import com.example.adminblinkitclone.model.Product
 import com.example.adminblinkitclone.models.Notification
 import com.example.adminblinkitclone.models.NotificationData
 import com.example.userblinkitclone.api.ApiUtilities
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -209,5 +210,9 @@ class AdminViewModel : ViewModel() {
                     })
             }
         }
+    }
+
+    fun logOutUser(){
+        FirebaseAuth.getInstance().signOut()
     }
 }

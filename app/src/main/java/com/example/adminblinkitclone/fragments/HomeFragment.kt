@@ -1,5 +1,6 @@
 package com.example.adminblinkitclone.fragments
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -8,15 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Filterable
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.adminblinkitclone.Constants
+import com.example.adminblinkitclone.utils.Constants
 import com.example.adminblinkitclone.R
-import com.example.adminblinkitclone.Utils
+import com.example.adminblinkitclone.utils.Utils
+import com.example.adminblinkitclone.activity.AuthMainActivity
 import com.example.adminblinkitclone.adapter.AdapterProduct
 import com.example.adminblinkitclone.adapter.CategoriesAdapter
 import com.example.adminblinkitclone.databinding.EditProductLayoutBinding
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
-    val viewModel : AdminViewModel by viewModels()
+    val viewModel: AdminViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterProduct: AdapterProduct
     override fun onCreateView(
@@ -40,11 +41,45 @@ class HomeFragment : Fragment() {
         getAllTheProducts("All")
         searchProduct()
         setCategories()
+        onLogoutButtonClicked()
         return binding.root
     }
 
+    private fun onLogoutButtonClicked() {
+        binding.tbHomeFragment.setOnClickListener {
+            when (it.id) {
+                R.id.menuLogout -> {
+                    logoutUser()
+                    true
+                }
+
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
+    private fun logoutUser() {
+        val builder = AlertDialog.Builder(requireContext())
+        val alertDialog = builder.create()
+        builder.setTitle("Log Out")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.logOutUser()
+                startActivity(Intent(requireContext(), AuthMainActivity::class.java))
+                requireActivity().finish()
+            }
+            .setNegativeButton("No") { _, _ ->
+                alertDialog.dismiss()
+            }
+            .show()
+            .setCancelable(false)
+
+    }
+
     private fun searchProduct() {
-        binding.searchET.addTextChangedListener(object : TextWatcher{
+        binding.searchET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
                 start: Int,
@@ -73,12 +108,12 @@ class HomeFragment : Fragment() {
 
     private fun getAllTheProducts(category: String) {
         binding.shimmerViewContainer.visibility = View.VISIBLE
-        lifecycleScope.launch{
-            viewModel.fetchAllProducts(category).collect{
-                if (it.isEmpty()){
+        lifecycleScope.launch {
+            viewModel.fetchAllProducts(category).collect {
+                if (it.isEmpty()) {
                     binding.rvProducts.visibility = View.GONE
                     binding.tvText.visibility = View.VISIBLE
-                }else{
+                } else {
                     binding.rvProducts.visibility = View.VISIBLE
                     binding.tvText.visibility = View.GONE
                 }
@@ -94,18 +129,23 @@ class HomeFragment : Fragment() {
     private fun setCategories() {
         val categoryList = ArrayList<Category>()
 
-        for (i in 0  until  Constants.allProductCategoryIcon.size){
-            categoryList.add(Category(Constants.allProductsCategory[i], Constants.allProductCategoryIcon[i]))
+        for (i in 0 until Constants.allProductCategoryIcon.size) {
+            categoryList.add(
+                Category(
+                    Constants.allProductsCategory[i],
+                    Constants.allProductCategoryIcon[i]
+                )
+            )
         }
 
         binding.rvCategories.adapter = CategoriesAdapter(categoryList, ::onCategoryClicked)
     }
 
-    private fun onCategoryClicked(categories: Category){
+    private fun onCategoryClicked(categories: Category) {
         getAllTheProducts(categories.category)
     }
 
-    private fun onEditButtonClicked(product : Product){
+    private fun onEditButtonClicked(product: Product) {
         val editProduct = EditProductLayoutBinding.inflate(LayoutInflater.from(requireContext()))
         editProduct.apply {
             etProductTitle.setText(product.productTitle)
@@ -156,8 +196,10 @@ class HomeFragment : Fragment() {
 
     private fun setAutoCompleteTextView(editProduct: EditProductLayoutBinding) {
         val units = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allUnitsOfProducts)
-        val category = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductsCategory)
-        val productType = ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductType)
+        val category =
+            ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductsCategory)
+        val productType =
+            ArrayAdapter(requireContext(), R.layout.show_list, Constants.allProductType)
 
         editProduct.apply {
             etProductUnit.setAdapter(units)
@@ -166,11 +208,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setStatusBarColor(){
+    private fun setStatusBarColor() {
         activity?.window?.apply {
             val statusBarColors = ContextCompat.getColor(requireContext(), R.color.yellow)
             statusBarColor = statusBarColors
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }

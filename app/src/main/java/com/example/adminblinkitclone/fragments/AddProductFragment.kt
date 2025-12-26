@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.adminblinkitclone.Constants
+import com.example.adminblinkitclone.utils.Constants
 import com.example.adminblinkitclone.R
-import com.example.adminblinkitclone.Utils
+import com.example.adminblinkitclone.utils.Utils
 import com.example.adminblinkitclone.activity.AdminMainActivity
 import com.example.adminblinkitclone.adapter.AdapterSelectedImage
 import com.example.adminblinkitclone.databinding.FragmentAddProductBinding

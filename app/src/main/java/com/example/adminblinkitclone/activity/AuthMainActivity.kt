@@ -1,12 +1,11 @@
 package com.example.adminblinkitclone.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.adminblinkitclone.R
-import com.example.adminblinkitclone.Utils  // ✅ import Utils for status bar helper
+import com.example.adminblinkitclone.utils.Utils  // ✅ import Utils for status bar helper
 
 class AuthMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.example.adminblinkitclone
+package com.example.adminblinkitclone.utils
 
 import android.app.AlertDialog
 import android.content.Context

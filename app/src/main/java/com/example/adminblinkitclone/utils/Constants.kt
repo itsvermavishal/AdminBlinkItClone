@@ -1,4 +1,6 @@
-package com.example.adminblinkitclone
+package com.example.adminblinkitclone.utils
+
+import com.example.adminblinkitclone.R
 
 object Constants {
     val allProductsCategory = arrayOf(

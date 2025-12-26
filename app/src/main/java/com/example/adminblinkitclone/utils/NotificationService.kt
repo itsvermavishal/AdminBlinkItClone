@@ -1,10 +1,11 @@
-package com.example.adminblinkitclone
+package com.example.adminblinkitclone.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.example.adminblinkitclone.R
 import com.example.adminblinkitclone.activity.AdminMainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
