@@ -193,8 +193,8 @@ class AdminViewModel : ViewModel() {
                 ApiUtilities.notificationApi.sendNotification(notification)
                     .enqueue(object : Callback<Notification> {
                         override fun onResponse(
-                            call: Call<Notification?>,
-                            response: Response<Notification?>
+                            call: Call<Notification>,
+                            response: Response<Notification>
                         ) {
                             if (response.isSuccessful){
                                 Log.d("GGG", "Notification sent")
@@ -202,10 +202,10 @@ class AdminViewModel : ViewModel() {
                         }
 
                         override fun onFailure(
-                            call: Call<Notification?>,
+                            call: Call<Notification>,
                             t: Throwable
                         ) {
-                            TODO("Not yet implemented")
+                            Log.e("GGG", "Notification failed", t)
                         }
                     })
             }
